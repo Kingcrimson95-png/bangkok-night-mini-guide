@@ -1,1 +1,39 @@
-/* Add extra styles if needed */
+/* --- Stories Section --- */
+.stories-container {
+    margin-bottom: 32px;
+}
+.section-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+}
+.story-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.story-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+.story-card .cover {
+    aspect-ratio: 16 / 9;
+}
+.story-card-content {
+    padding: 16px;
+}
+.story-card-content h3 {
+    margin: 0 0 4px 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+.story-card-content p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+}

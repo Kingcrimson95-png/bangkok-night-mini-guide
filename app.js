@@ -8,6 +8,7 @@ const t = (k, d = k) => i18n[k] ?? d;
 
 // State
 let selectedCategory = "";
+let currentLang = "en";
 
 const categoryIcons = {
     food: "🍜",
@@ -23,6 +24,7 @@ function getLang() {
 }
 
 async function loadI18n(lang) {
+  currentLang = lang;
   try {
     const res = await fetch(`i18n/${lang}.json`);
     i18n = await res.json();
@@ -33,7 +35,6 @@ async function loadI18n(lang) {
   $("#title").textContent = t("title", "Bangkok Travel Guide");
   $("#q").placeholder = t("search_ph", "Search places...");
 
-  // options
   $("#openNow").options[0].text = t("open_now", "Open now");
   $("#openNow").options[1].text = t("any_time", "Any time");
   $("#nearby").options[0].text = t("near_1km", "≤1 km");
@@ -42,7 +43,6 @@ async function loadI18n(lang) {
   $("#nearby").options[3].text = t("anywhere", "Anywhere");
   $("#foot").textContent = t("footer", "Works offline. Add to Home Screen.");
   
-  // Emergency Modal localization
   $("#emergency-btn-text").textContent = t("emergency_btn_text", "SOS");
   $("#emergency-title").textContent = t("emergency_title", "Emergency Contacts");
   $("#tourist-police-label").textContent = t("tourist_police", "Tourist Police");
@@ -92,7 +92,12 @@ async function loadPlaces() {
   return res.json();
 }
 
-// Haversine distance (meters)
+// New function to load stories
+async function loadStories() {
+    const res = await fetch("data/stories.json");
+    return res.json();
+}
+
 function dist(a, b) {
   const R = 6371e3;
   const toRad = x => x * Math.PI / 180;
@@ -104,7 +109,7 @@ function dist(a, b) {
 }
 
 function isOpenNow(place, now = new Date()) {
-  if (!place.hours) return true; // Assume always open if no hours specified
+  if (!place.hours) return true;
   const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
   const local = new Date(now.getTime());
   const dayKey = days[local.getDay()];
@@ -142,11 +147,11 @@ function card(place, open, distance) {
   div.className = "card";
 
   const coverMap = {
-    food: "https://placehold.co/600x400/f5a623/FFFFFF?text=Food",
-    cafe: "https://placehold.co/600x400/7ed321/FFFFFF?text=Cafe",
-    bar: "https://placehold.co/600x400/bd10e0/FFFFFF?text=Bar",
-    photo: "https://placehold.co/600x400/4a90e2/FFFFFF?text=Photo+Spot",
-    market: "https://placehold.co/600x400/d0021b/FFFFFF?text=Market",
+    food: "https://images.unsplash.com/photo-1554679665-f5537f187268?q=80&w=1887&auto=format&fit=crop",
+    cafe: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1887&auto=format&fit=crop",
+    bar: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=1974&auto=format&fit=crop",
+    photo: "https://images.unsplash.com/photo-1532347922424-c652d9b7208e?q=80&w=2070&auto=format&fit=crop",
+    market: "https://images.unsplash.com/photo-1533900298318-6b8da08a523e?q=80&w=2070&auto=format&fit=crop",
   };
   
   const coverSrc = place.image || coverMap[place.category] || 'https://placehold.co/600x400/cccccc/FFFFFF?text=Visit';
@@ -174,38 +179,51 @@ function card(place, open, distance) {
   return div;
 }
 
+// New function to render stories
+function renderStories(stories) {
+    const container = $("#stories-container");
+    if (!container) return;
 
-async function main() {
-  const langSel = $("#langSel");
-  const lang = getLang();
-  langSel.value = lang;
-  await loadI18n(lang);
+    // Clear previous content and add a title
+    container.innerHTML = `<h2 class="section-title">${t('stories_title', 'Bangkok Stories')}</h2>`;
 
-  const list = $("#list");
-  const places = await loadPlaces();
+    const storiesGrid = document.createElement("div");
+    storiesGrid.className = "grid"; // Reuse the grid class for layout
 
-  let here = null;
-  try {
-    await new Promise((res, rej) => {
-      navigator.geolocation.getCurrentPosition(p => { here = { lat: p.coords.latitude, lng: p.coords.longitude }; res(); }, err => res(), { timeout: 3500 });
+    stories.forEach(story => {
+        const div = document.createElement("div");
+        div.className = "story-card";
+        div.dataset.storyId = story.id; // We'll use this later to open the story
+
+        const title = currentLang === 'th' ? story.title_th : story.title_en;
+        const subtitle = currentLang === 'th' ? story.subtitle_th : story.subtitle_en;
+
+        div.innerHTML = `
+            <div class="cover">
+                <img src="${story.cover_image}" alt="${title}" loading="lazy" decoding="async" />
+            </div>
+            <div class="story-card-content">
+                <h3>${title}</h3>
+                <p>${subtitle}</p>
+            </div>
+        `;
+        storiesGrid.appendChild(div);
     });
-  } catch {}
-  if (!here) {
-    here = { lat: 13.7563, lng: 100.5018 }; // Fallback: central BKK
-  }
+    container.appendChild(storiesGrid);
+}
 
-  const ui = {
-    q: $("#q"),
-    openNow: $("#openNow"),
-    nearby: $("#nearby"),
-  };
-  
-  // Make render function global to be accessible for event listeners
-  window.render = function() {
+
+let places = [];
+let stories = [];
+let here = { lat: 13.7563, lng: 100.5018 }; 
+function render() {
+    const list = $("#list");
+    if (!list) return;
+
     list.innerHTML = "";
-    const q = ui.q.value.trim().toLowerCase();
-    const needOpen = ui.openNow.value === "1";
-    const maxDist = parseInt(ui.nearby.value, 10);
+    const q = $("#q").value.trim().toLowerCase();
+    const needOpen = $("#openNow").value === "1";
+    const maxDist = parseInt($("#nearby").value, 10);
 
     const enriched = places.map(p => {
       const open = isOpenNow(p);
@@ -226,31 +244,60 @@ async function main() {
     } else {
       const empty = document.createElement("div");
       empty.className = "meta";
-      empty.style.gridColumn = "1 / -1"; // Span full width
+      empty.style.gridColumn = "1 / -1";
       empty.textContent = t('no_results', "No places found. Try different filters.");
       list.appendChild(empty);
     }
-  }
+}
 
+
+async function main() {
+  const langSel = $("#langSel");
+  const lang = getLang();
+  langSel.value = lang;
+  await loadI18n(lang);
+
+  // Load both places and stories at the same time for efficiency
+  [places, stories] = await Promise.all([loadPlaces(), loadStories()]);
+
+  // Render the new story section first
+  renderStories(stories);
+
+  try {
+    await new Promise((res, rej) => {
+      navigator.geolocation.getCurrentPosition(p => { here = { lat: p.coords.latitude, lng: p.coords.longitude }; res(); }, err => res(), { timeout: 3500 });
+    });
+  } catch {}
+  
+  const ui = {
+    q: $("#q"),
+    openNow: $("#openNow"),
+    nearby: $("#nearby"),
+  };
   ["input", "change"].forEach(ev => {
     ui.q.addEventListener(ev, render);
     ui.openNow.addEventListener(ev, render);
     ui.nearby.addEventListener(ev, render);
   });
 
-  render();
-
   langSel.addEventListener("change", async () => {
     const newLang = langSel.value;
+    await loadI18n(newLang);
     localStorage.setItem("lang", newLang);
     const url = new URL(location.href);
     url.searchParams.set("lang", newLang);
     history.replaceState(null, "", url.toString());
-    await loadI18n(newLang);
+    
+    // Re-render everything with the new language
+    renderStories(stories);
     render();
   });
 
-  // --- Emergency Modal Logic ---
+  // Initial render for places
+  render(); 
+}
+
+function setupEmergencyModal() {
   const emergencyBtn = $("#emergency-btn");
   const emergencyModal = $("#emergency-modal");
   const closeModalBtn = $("#close-modal-btn");
@@ -264,21 +311,22 @@ async function main() {
         emergencyModal.style.display = "none";
       });
 
-      // Close modal if user clicks on the background overlay
       emergencyModal.addEventListener("click", (e) => {
         if (e.target === emergencyModal) {
           emergencyModal.style.display = "none";
         }
       });
   } else {
-    console.error("Emergency button or modal elements not found.");
+    console.error("SOS Button Error: Could not find all the required emergency UI elements in the HTML.");
   }
 }
 
-main();
+document.addEventListener('DOMContentLoaded', () => {
+    main();
+    setupEmergencyModal();
+});
 
-// Register SW
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
 }
-

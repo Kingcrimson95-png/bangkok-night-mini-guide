@@ -1,0 +1,22 @@
+[
+  {
+    "id": "story-chinatown",
+    "title_en": "A Night in Chinatown",
+    "subtitle_en": "Explore the vibrant streets of Yaowarat",
+    "title_th": "ค่ำคืนในเยาวราช",
+    "subtitle_th": "สำรวจถนนที่เต็มไปด้วยสีสันของเยาวราช",
+    "cover_image": "https://images.unsplash.com/photo-1593019249624-f78235213294?q=80&w=2070&auto=format&fit=crop",
+    "content_en": [
+      { "type": "header", "text": "The Heartbeat of Bangkok's Nightlife" },
+      { "type": "paragraph", "text": "When the sun sets, Yaowarat Road transforms into a dazzling spectacle of neon lights, bustling crowds, and the sizzling sounds of street food. It's a sensory overload in the best way possible, offering a glimpse into the city's rich Chinese heritage." },
+      { "type": "header", "text": "Driver's Tip 💡" },
+      { "type": "paragraph", "text": "Traffic can be intense. The best way to get here is by MRT (subway) to Wat Mangkon station, Exit 1. You'll pop up right in the middle of the action. If you take a taxi, ask to be dropped off at the start of the road to avoid getting stuck." }
+    ],
+    "content_th": [
+        { "type": "header", "text": "หัวใจของกรุงเทพยามราตรี" },
+        { "type": "paragraph", "text": "เมื่อพระอาทิตย์ตกดิน ถนนเยาวราชจะเปลี่ยนเป็นถนนที่สว่างไสวไปด้วยแสงไฟนีออน ผู้คนพลุกพล่าน และเสียงฉ่าของอาหารริมทาง เป็นประสบการณ์ที่น่าตื่นตาตื่นใจในทุกประสาทสัมผัส และสะท้อนมรดกทางวัฒนธรรมจีนของกรุงเทพฯ" },
+        { "type": "header", "text": "คำแนะนำจากคนขับรถ 💡" },
+        { "type": "paragraph", "text": "การจราจรอาจจะติดขัดมาก วิธีที่ดีที่สุดคือการเดินทางด้วย MRT (รถไฟใต้ดิน) มาลงที่สถานีวัดมังกร ทางออก 1 คุณจะโผล่ขึ้นมาใจกลางถนนเลย หรือหากนั่งแท็กซี่ ให้ขอลงที่ต้นถนนเพื่อเลี่ยงรถติด" }
+    ]
+  }
+]
