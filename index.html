@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Bangkok Travel Guide</title>
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#111111">
@@ -24,32 +24,25 @@
           <option value="th">ไทย</option>
         </select>
       </div>
-      <div class="search-bar">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
+      <div class="controls">
         <input id="q" type="search" placeholder="Search places..." autocomplete="off">
+        <select id="openNow">
+          <option value="1">Open now</option>
+          <option value="0">Any time</option>
+        </select>
+        <select id="nearby">
+          <option value="1000">≤1 km</option>
+          <option value="2000">≤2 km</option>
+          <option value="5000" selected>≤5 km</option>
+          <option value="999999">Anywhere</option>
+        </select>
       </div>
+      <div id="category-filters" class="category-filters"></div>
     </div>
   </header>
 
   <main class="wrap">
-    <div id="stories-container"></div>
-    
-    <div id="category-filters"></div>
-
-    <div class="filter-controls">
-      <select id="openNow">
-        <option value="1">Open now</option>
-        <option value="0">Any time</option>
-      </select>
-      <select id="nearby">
-        <option value="1000">≤1 km</option>
-        <option value="2000">≤2 km</option>
-        <option value="5000" selected>≤5 km</option>
-        <option value="999999">Anywhere</option>
-      </select>
-    </div>
-
-    <div id="list" class="grid" role="list" style="margin-top:20px;"></div>
+    <div id="list" class="grid" role="list"></div>
     <div class="footer" id="foot">Works offline. Add to Home Screen.</div>
   </main>
   

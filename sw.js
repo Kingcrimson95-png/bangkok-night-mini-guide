@@ -1,13 +1,13 @@
-const CACHE = 'bkk-guide-v2'; // Updated cache version
+const CACHE = 'bkk-guide-v3'; // Updated cache version
 const ASSETS = [
-  '/', 
-  '/index.html', 
-  '/styles.css', 
+  '/',
+  '/index.html',
+  '/styles.css',
   '/app.js',
-  '/data/places.json',
-  '/data/stories.json', // <-- Added the new stories file here
-  '/i18n/en.json', 
-  '/i18n/th.json',
+  '/places.json',
+  '/stories.json',
+  '/en.json',
+  '/th.json',
   '/assets/icon-192.png', 
   '/assets/icon-512.png', 
   '/manifest.webmanifest'
@@ -26,7 +26,12 @@ self.addEventListener('activate', e=>{
 self.addEventListener('fetch', e=>{
   const url = new URL(e.request.url);
   // Always try network first for data files to get fresh data
-  if (url.pathname.startsWith('/data/')) {
+  if (
+    url.pathname.endsWith('/places.json') ||
+    url.pathname.endsWith('/stories.json') ||
+    url.pathname.endsWith('/en.json') ||
+    url.pathname.endsWith('/th.json')
+  ) {
     e.respondWith(
       fetch(e.request).then(res => {
         const copy = res.clone();

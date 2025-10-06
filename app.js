@@ -20,13 +20,20 @@ const categoryIcons = {
 
 function getLang() {
   const url = new URL(location.href);
-  return url.searchParams.get("lang") || localStorage.getItem("lang") || (navigator.language || "en").startsWith("th") ? "th" : "en";
+  const fromUrl = url.searchParams.get("lang");
+  const stored = localStorage.getItem("lang");
+  if (fromUrl) return fromUrl;
+  if (stored) return stored;
+  return ((navigator.language || "en").startsWith("th") ? "th" : "en");
 }
 
+const BUILD = "2025-10-07-02"; // เปลี่ยนค่านี้เมื่อแก้ data
 async function loadI18n(lang) {
+
   currentLang = lang;
   try {
-    const res = await fetch(`i18n/${lang}.json`);
+    // แก้ path ให้ตรงกับไฟล์จริง (en.json / th.json อยู่ root)
+    const res = await fetch(`${lang}.json?v=${BUILD}`);
     i18n = await res.json();
   } catch {
     i18n = {};
@@ -88,13 +95,15 @@ function renderCategoryFilters() {
 
 
 async function loadPlaces() {
-  const res = await fetch("data/places.json");
+  // แก้ path ให้ตรงกับไฟล์จริง (places.json อยู่ root)
+  const res = await fetch(`places.json?v=${BUILD}`);
   return res.json();
 }
 
 // New function to load stories
 async function loadStories() {
-    const res = await fetch("data/stories.json");
+    // แก้ path ให้ตรงกับไฟล์จริง (stories.json อยู่ root)
+    const res = await fetch(`stories.json?v=${BUILD}`);
     return res.json();
 }
 
@@ -179,7 +188,7 @@ function card(place, open, distance) {
   return div;
 }
 
-// Corrected function to render stories
+// Corrected function to render stories (+ click open)
 function renderStories(stories) {
     const container = $("#stories-container");
     if (!container) return;
@@ -203,6 +212,7 @@ function renderStories(stories) {
                 <p>${subtitle}</p>
             </div>
         `;
+        div.addEventListener("click", () => openStory(story));
         container.appendChild(div);
     });
 }
@@ -314,12 +324,56 @@ function setupEmergencyModal() {
   }
 }
 
+// Simple in-page story viewer (modal reuse)
+function openStory(story) {
+  // ใช้ emergency modal overlay เป็น template ก็ได้ แต่ให้สร้าง modal แยกแบบ lightweight
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.style.display = 'flex';
+  const isTH = currentLang === 'th';
+
+  const blocks = (isTH ? story.content_th : story.content_en) || [];
+  const htmlBlocks = blocks.map(b => {
+    if (b.type === 'header') return `<h3 style="margin:0 0 8px 0">${b.text}</h3>`;
+    return `<p style="margin:0 0 12px 0; color: var(--muted)">${b.text}</p>`;
+  }).join('');
+
+  overlay.innerHTML = `
+    <div class="modal-content" style="max-width:680px;">
+      <button class="modal-close-btn" aria-label="Close">&times;</button>
+      <div class="cover" style="border-radius:12px; overflow:hidden; margin-bottom:12px;">
+        <img src="${story.cover_image}" alt="" loading="lazy" decoding="async"/>
+      </div>
+      ${htmlBlocks}
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay || e.target.classList.contains('modal-close-btn')) {
+      overlay.remove();
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     main();
     setupEmergencyModal();
 });
 
 
+// DEV-friendly SW policy:
+// - บน GitHub Pages เท่านั้นค่อย register
+// - ที่อื่น (localhost/Live Server) ให้ unregister ทั้งหมด เพื่อตัดปัญหา cache
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+  window.addEventListener('load', async () => {
+    const onPages = location.hostname.endsWith('.github.io');
+    if (onPages) {
+      try { await navigator.serviceWorker.register('sw.js'); } catch {}
+    } else {
+      try {
+        const regs = await navigator.serviceWorker.getRegistrations();
+        for (const r of regs) await r.unregister();
+      } catch {}
+    }
+  });
 }

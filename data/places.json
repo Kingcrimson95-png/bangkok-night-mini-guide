@@ -288,5 +288,65 @@
         ]
       ]
     }
+  },
+  {
+    "name": "Yaowarat (Chinatown)",
+    "category": "market",
+    "lat": 13.7416,
+    "lng": 100.5089,
+    "desc": "Street food heaven and neon-lit signs along Yaowarat Road.",
+    "tip": "Best around 18:30–22:00; start at Odeon Circle and walk in.",
+    "map": "https://maps.google.com/?q=13.7416,100.5089",
+    "tags": [
+      "chinatown",
+      "yaowarat",
+      "street food",
+      "market"
+    ],
+    "hours": {
+      "sun": [
+        [
+          "17:00",
+          "00:00"
+        ]
+      ],
+      "mon": [
+        [
+          "17:00",
+          "00:00"
+        ]
+      ],
+      "tue": [
+        [
+          "17:00",
+          "00:00"
+        ]
+      ],
+      "wed": [
+        [
+          "17:00",
+          "00:00"
+        ]
+      ],
+      "thu": [
+        [
+          "17:00",
+          "00:00"
+        ]
+      ],
+      "fri": [
+        [
+          "17:00",
+          "01:00"
+        ]
+      ],
+      "sat": [
+        [
+          "17:00",
+          "01:00"
+        ]
+      ]
+    },
+    "image": "https://images.unsplash.com/photo-1593019249624-f78235213294?q=80&w=1200&auto=format&fit=crop"
   }
 ]
