@@ -31,6 +31,29 @@
     .pill{border:1px solid #2b2f37;padding:4px 8px;border-radius:999px;font-size:12px;color:var(--muted)}
     a{color:var(--accent);text-decoration:none}
     .lang{margin-left:auto}
+
+    /* --- cover image styles --- */
+    .cover {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #2a2d34;
+      background: linear-gradient(180deg, #1a1c21, #121317);
+    }
+    .cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .cover .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,.35) 90%);
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>

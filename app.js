@@ -96,8 +96,27 @@ function fmtDist(m){
 function card(place, open, distance){
   const div = document.createElement("div");
   div.className = "card";
+
+  // map หมวดหมู่ -> ไฟล์ cover
+  const coverMap = {
+    food: "assets/covers/food.png",
+    cafe: "assets/covers/cafe.png",
+    bar: "assets/covers/bar.png",
+    photo: "assets/covers/photo.png",
+    market: "assets/covers/market.png",
+  };
+  // รองรับการกำหนดรูปเองใน place (เช่น place.cover)
+  const coverSrc = place.cover || coverMap[place.category] || null;
+
+  // สร้าง HTML การ์ด
   div.innerHTML = `
-    <div class="meta">
+    ${coverSrc ? `
+      <div class="cover">
+        <img src="${coverSrc}" alt="${place.category} cover" loading="lazy" decoding="async" />
+        <div class="overlay"></div>
+      </div>` : ``}
+
+    <div class="meta" style="margin-top:${coverSrc? '8px':'0'}">
       <span class="pill">${t(place.category)}</span>
       <span class="${open?'open':'closed'}">${open ? t('open','Open now') : t('closed','Closed')}</span>
       ${distance!=null? `<span class="pill">${fmtDist(distance)}</span>` : ""}
