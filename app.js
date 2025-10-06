@@ -43,6 +43,7 @@ async function loadI18n(lang) {
   $("#foot").textContent = t("footer", "Works offline. Add to Home Screen.");
   
   // Emergency Modal localization
+  $("#emergency-btn-text").textContent = t("emergency_btn_text", "SOS");
   $("#emergency-title").textContent = t("emergency_title", "Emergency Contacts");
   $("#tourist-police-label").textContent = t("tourist_police", "Tourist Police");
   $("#police-ambulance-label").textContent = t("police_ambulance", "Police / Ambulance");
@@ -199,6 +200,7 @@ async function main() {
     nearby: $("#nearby"),
   };
   
+  // Make render function global to be accessible for event listeners
   window.render = function() {
     list.innerHTML = "";
     const q = ui.q.value.trim().toLowerCase();
@@ -253,19 +255,24 @@ async function main() {
   const emergencyModal = $("#emergency-modal");
   const closeModalBtn = $("#close-modal-btn");
 
-  emergencyBtn.addEventListener("click", () => {
-    emergencyModal.style.display = "flex";
-  });
-  closeModalBtn.addEventListener("click", () => {
-    emergencyModal.style.display = "none";
-  });
-  // Close modal if user clicks on the background overlay
-  emergencyModal.addEventListener("click", (e) => {
-    if (e.target === emergencyModal) {
-      emergencyModal.style.display = "none";
-    }
-  });
+  if (emergencyBtn && emergencyModal && closeModalBtn) {
+      emergencyBtn.addEventListener("click", () => {
+        emergencyModal.style.display = "flex";
+      });
 
+      closeModalBtn.addEventListener("click", () => {
+        emergencyModal.style.display = "none";
+      });
+
+      // Close modal if user clicks on the background overlay
+      emergencyModal.addEventListener("click", (e) => {
+        if (e.target === emergencyModal) {
+          emergencyModal.style.display = "none";
+        }
+      });
+  } else {
+    console.error("Emergency button or modal elements not found.");
+  }
 }
 
 main();
