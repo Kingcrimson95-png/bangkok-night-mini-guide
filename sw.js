@@ -1,8 +1,16 @@
-const CACHE = 'bkk-guide-v1';
+const CACHE = 'bkk-guide-v2'; // Updated cache version
 const ASSETS = [
-  '/', '/index.html', '/styles.css', '/app.js',
-  '/data/places.json', '/i18n/en.json', '/i18n/th.json',
-  '/assets/icon-192.png', '/assets/icon-512.png', '/manifest.webmanifest'
+  '/', 
+  '/index.html', 
+  '/styles.css', 
+  '/app.js',
+  '/data/places.json',
+  '/data/stories.json', // <-- Added the new stories file here
+  '/i18n/en.json', 
+  '/i18n/th.json',
+  '/assets/icon-192.png', 
+  '/assets/icon-512.png', 
+  '/manifest.webmanifest'
 ];
 
 self.addEventListener('install', e=>{
@@ -17,14 +25,24 @@ self.addEventListener('activate', e=>{
 
 self.addEventListener('fetch', e=>{
   const url = new URL(e.request.url);
-  if (ASSETS.includes(url.pathname)) {
-    e.respondWith(caches.match(e.request).then(r=> r || fetch(e.request)));
+  // Always try network first for data files to get fresh data
+  if (url.pathname.startsWith('/data/')) {
+    e.respondWith(
+      fetch(e.request).then(res => {
+        const copy = res.clone();
+        caches.open(CACHE).then(c => c.put(e.request, copy));
+        return res;
+      }).catch(() => caches.match(e.request))
+    );
     return;
   }
-  // For other requests, try network then cache fallback
-  e.respondWith(fetch(e.request).then(r=>{
-    const copy = r.clone();
-    caches.open(CACHE).then(c=>c.put(e.request, copy));
-    return r;
-  }).catch(()=>caches.match(e.request)));
+  
+  // For other assets, serve from cache first
+  e.respondWith(
+    caches.match(e.request).then(r => r || fetch(e.request).then(res => {
+      const copy = res.clone();
+      caches.open(CACHE).then(c => c.put(e.request, copy));
+      return res;
+    }))
+  );
 });

@@ -179,16 +179,12 @@ function card(place, open, distance) {
   return div;
 }
 
-// New function to render stories
+// Corrected function to render stories
 function renderStories(stories) {
     const container = $("#stories-container");
     if (!container) return;
 
-    // Clear previous content and add a title
     container.innerHTML = `<h2 class="section-title">${t('stories_title', 'Bangkok Stories')}</h2>`;
-
-    const storiesGrid = document.createElement("div");
-    storiesGrid.className = "grid"; // Reuse the grid class for layout
 
     stories.forEach(story => {
         const div = document.createElement("div");
@@ -207,9 +203,8 @@ function renderStories(stories) {
                 <p>${subtitle}</p>
             </div>
         `;
-        storiesGrid.appendChild(div);
+        container.appendChild(div);
     });
-    container.appendChild(storiesGrid);
 }
 
 
@@ -257,11 +252,10 @@ async function main() {
   langSel.value = lang;
   await loadI18n(lang);
 
-  // Load both places and stories at the same time for efficiency
+  // Load both places and stories
   [places, stories] = await Promise.all([loadPlaces(), loadStories()]);
 
-  // Render the new story section first
-  renderStories(stories);
+  renderStories(stories); // Render the new story section
 
   try {
     await new Promise((res, rej) => {
@@ -293,7 +287,6 @@ async function main() {
     render();
   });
 
-  // Initial render for places
   render(); 
 }
 

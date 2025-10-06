@@ -2,322 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bangkok Travel Guide</title>
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#111111">
   <link rel="icon" href="assets/icon-192.png">
   <link rel="apple-touch-icon" href="assets/icon-192.png">
-  <meta name="description" content="A modern, offline-capable travel guide for Bangkok.">
+  <meta name="description" content="A curated, modern travel guide for Bangkok.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <style>
-    :root {
-      --bg: #0a0a0a;
-      --card-bg: #1a1a1a;
-      --text: #f0f0f0;
-      --muted: #a0a0a0;
-      --accent: #00e0b8;
-      --border-color: #2f2f2f;
-      --danger: #ef4444;
-      --font-family: 'Inter', sans-serif;
-    }
-
-    * { box-sizing: border-box; }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font-family);
-      font-size: 16px;
-      line-height: 1.6;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      background: rgba(10, 10, 10, 0.8);
-      backdrop-filter: blur(12px);
-      z-index: 10;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .wrap {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 16px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 24px;
-      letter-spacing: -0.5px;
-      font-weight: 600;
-    }
-    
-    .header-top {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        flex-wrap: wrap;
-        margin-bottom: 16px;
-    }
-
-    .controls {
-      display: grid;
-      gap: 12px;
-    }
-
-    @media (min-width: 768px) {
-      .controls {
-        grid-template-columns: 1fr auto auto;
-      }
-    }
-
-    #q {
-      width: 100%;
-    }
-
-    .controls input, .controls select {
-      background: var(--card-bg);
-      color: var(--text);
-      border: 1px solid var(--border-color);
-      padding: 12px 16px;
-      border-radius: 10px;
-      font-size: 1rem;
-      font-family: var(--font-family);
-    }
-    .controls select {
-        -webkit-appearance: none;
-        appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%23a0a0a0' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E");
-        background-position: right 1rem center;
-        background-repeat: no-repeat;
-        padding-right: 3rem;
-    }
-
-    .category-filters {
-        display: flex;
-        gap: 8px;
-        overflow-x: auto;
-        padding: 4px 0 16px 0;
-        scrollbar-width: none; /* Firefox */
-    }
-    .category-filters::-webkit-scrollbar { display: none; }
-
-    .category-btn {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 16px;
-        border-radius: 999px;
-        background: var(--card-bg);
-        color: var(--muted);
-        border: 1px solid var(--border-color);
-        font-size: 14px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        white-space: nowrap;
-    }
-    .category-btn .icon { font-size: 18px; }
-    .category-btn:hover { background: #252525; color: var(--text); }
-    .category-btn.active {
-        background: var(--accent);
-        color: #000;
-        border-color: var(--accent);
-    }
-    
-    main { padding: 16px; }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-    }
-
-    .cover {
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      background: #333;
-    }
-    .cover img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .card-content {
-        padding: 16px;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        flex-grow: 1;
-    }
-    .card h3 {
-      margin: 0;
-      font-size: 18px;
-      font-weight: 600;
-    }
-
-    .meta { font-size: 14px; color: var(--muted); }
-    .meta.tip { font-style: italic; }
-
-    .meta-pills {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-        margin-bottom: 4px;
-    }
-    .pill {
-      border: 1px solid #3f3f3f;
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--muted);
-      background: #2a2a2a;
-    }
-    .pill.category { color: var(--accent); border-color: #005a46; background: #002e23; }
-
-    .card-footer {
-        padding: 0 16px 16px 16px;
-        margin-top: auto;
-    }
-    .card-footer .meta {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .status-indicator { display: flex; align-items: center; gap: 6px; font-weight: 500;}
-    .status-indicator::before {
-        content: '';
-        display: block;
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-    }
-    .status-indicator.open { color: #34d399; }
-    .status-indicator.open::before { background: #34d399; }
-    .status-indicator.closed { color: #fb7185; }
-    .status-indicator.closed::before { background: #fb7185; }
-    
-    .footer { opacity: .7; font-size: 12px; text-align: center; margin: 24px 0; }
-    a { color: var(--accent); text-decoration: none; font-weight: 500;}
-    .lang { margin-left: auto; }
-
-    /* --- Emergency Button Styles --- */
-    #emergency-btn {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      width: auto;
-      height: 56px;
-      padding: 0 20px;
-      gap: 8px;
-      background-color: var(--danger);
-      color: white;
-      border: none;
-      border-radius: 999px; /* Pill shape */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
-      cursor: pointer;
-      z-index: 1000;
-      transition: transform 0.2s ease;
-      font-size: 16px;
-      font-weight: 600;
-    }
-    #emergency-btn:hover {
-      transform: scale(1.05);
-    }
-    #emergency-btn svg {
-      width: 24px;
-      height: 24px;
-    }
-
-    /* --- Emergency Modal Styles --- */
-    #emergency-modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(5px);
-      z-index: 1001;
-      display: none; /* Hidden by default */
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-    }
-    .modal-content {
-      background: var(--card-bg);
-      padding: 24px;
-      border-radius: 16px;
-      border: 1px solid var(--border-color);
-      width: 100%;
-      max-width: 400px;
-      position: relative;
-    }
-    .modal-content h2 {
-      margin-top: 0;
-      color: var(--danger);
-    }
-    #close-modal-btn {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: none;
-      border: none;
-      color: var(--muted);
-      cursor: pointer;
-      padding: 8px;
-    }
-    .contact-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .contact-list li {
-      display: flex;
-      flex-direction: column;
-    }
-    .contact-list .label {
-      font-size: 14px;
-      color: var(--muted);
-    }
-    .contact-list .number {
-      font-size: 24px;
-      font-weight: 600;
-      color: var(--text);
-      text-decoration: none;
-    }
-    .contact-list .number:hover {
-      color: var(--accent);
-    }
-  </style>
 </head>
 <body>
   <header>
@@ -329,57 +24,56 @@
           <option value="th">ไทย</option>
         </select>
       </div>
-      <div class="controls">
+      <div class="search-bar">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
         <input id="q" type="search" placeholder="Search places..." autocomplete="off">
-        <select id="openNow">
-          <option value="1">Open now</option>
-          <option value="0">Any time</option>
-        </select>
-        <select id="nearby">
-          <option value="1000">≤1 km</option>
-          <option value="2000">≤2 km</option>
-          <option value="5000" selected>≤5 km</option>
-          <option value="999999">Anywhere</option>
-        </select>
       </div>
-      <div id="category-filters" class="category-filters"></div>
     </div>
   </header>
 
   <main class="wrap">
     <div id="stories-container"></div>
     
-    <div id="list" class="grid" role="list"></div>
+    <div id="category-filters"></div>
+
+    <div class="filter-controls">
+      <select id="openNow">
+        <option value="1">Open now</option>
+        <option value="0">Any time</option>
+      </select>
+      <select id="nearby">
+        <option value="1000">≤1 km</option>
+        <option value="2000">≤2 km</option>
+        <option value="5000" selected>≤5 km</option>
+        <option value="999999">Anywhere</option>
+      </select>
+    </div>
+
+    <div id="list" class="grid" role="list" style="margin-top:20px;"></div>
     <div class="footer" id="foot">Works offline. Add to Home Screen.</div>
   </main>
-
-  <button id="emergency-btn" aria-label="Emergency Contacts">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
-    </svg>
+  
+  <button id="emergency-btn" class="sos-btn">
+    <span class="icon">⚠️</span>
     <span id="emergency-btn-text">SOS</span>
   </button>
 
-  <div id="emergency-modal">
+  <div id="emergency-modal" class="modal-overlay">
     <div class="modal-content">
-      <button id="close-modal-btn" aria-label="Close">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-      </button>
+      <button id="close-modal-btn" class="modal-close-btn">&times;</button>
       <h2 id="emergency-title">Emergency Contacts</h2>
-      <ul class="contact-list">
-        <li>
-          <span id="tourist-police-label" class="label">Tourist Police</span>
-          <a href="tel:1155" class="number">1155</a>
-        </li>
-        <li>
-          <span id="police-ambulance-label" class="label">Police / Ambulance</span>
-          <a href="tel:191" class="number">191</a>
-        </li>
-        <li>
-          <span id="medical-emergency-label" class="label">Medical Emergency</span>
-          <a href="tel:1669" class="number">1669</a>
-        </li>
-      </ul>
+      <div class="contact-item">
+        <span id="tourist-police-label" class="label">Tourist Police</span>
+        <a href="tel:1155" class="number">1155</a>
+      </div>
+      <div class="contact-item">
+        <span id="police-ambulance-label" class="label">Police / Ambulance</span>
+        <a href="tel:191" class="number">191</a>
+      </div>
+      <div class="contact-item">
+        <span id="medical-emergency-label" class="label">Medical Emergency</span>
+        <a href="tel:1669" class="number">1669</a>
+      </div>
     </div>
   </div>
 
