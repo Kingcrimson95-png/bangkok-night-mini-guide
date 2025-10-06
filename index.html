@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bangkok Night Mini‑Guide</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#111111">
+  <link rel="icon" href="assets/icon-192.png">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <meta name="description" content="Time-aware, offline-capable mini guide for Bangkok night spots.">
+  <style>
+    /* Minimal critical CSS for faster first paint */
+    :root { --bg:#0f0f12; --card:#15161a; --text:#f2f2f5; --muted:#a8acb3; --accent:#00e0b8; }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+    header{position:sticky;top:0;background:linear-gradient(180deg,#0f0f12,rgba(15,15,18,.9));backdrop-filter:blur(8px);z-index:10}
+    .wrap{max-width:900px;margin:0 auto;padding:16px}
+    h1{margin:0;font-size:22px;letter-spacing:.2px}
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .controls input,.controls select{background:var(--card);color:var(--text);border:1px solid #2a2d34;padding:10px 12px;border-radius:10px}
+    .badge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:#0e2d26;color:#83ffe8;border:1px solid #16493f;font-size:12px}
+    main{padding:16px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+    .card{background:var(--card);border:1px solid #262a31;border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px}
+    .card h3{margin:0 0 4px 0;font-size:18px}
+    .meta{font-size:13px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap}
+    .open{color:#00ffaa}
+    .closed{color:#ff6b6b}
+    .footer{opacity:.7;font-size:12px;text-align:center;margin:24px 0}
+    .pill{border:1px solid #2b2f37;padding:4px 8px;border-radius:999px;font-size:12px;color:var(--muted)}
+    a{color:var(--accent);text-decoration:none}
+    .lang{margin-left:auto}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <h1 id="title">Bangkok Night Mini‑Guide</h1>
+        <span id="badge" class="badge">⏱ <span id="badgeText">Auto: open now & near you</span></span>
+        <select id="langSel" class="lang" aria-label="Language">
+          <option value="en">EN</option>
+          <option value="th">ไทย</option>
+        </select>
+      </div>
+      <div class="controls">
+        <input id="q" type="search" placeholder="Search... (noodle, rooftop, etc.)" autocomplete="off">
+        <select id="cat">
+          <option value="">All categories</option>
+          <option value="food">Food</option>
+          <option value="cafe">Cafe</option>
+          <option value="bar">Bar/Rooftop</option>
+          <option value="photo">Photo spot</option>
+          <option value="market">Night market</option>
+        </select>
+        <select id="openNow">
+          <option value="1">Open now</option>
+          <option value="0">Any time</option>
+        </select>
+        <select id="nearby">
+          <option value="1000">≤1 km</option>
+          <option value="2000">≤2 km</option>
+          <option value="5000" selected>≤5 km</option>
+          <option value="999999">Anywhere</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div id="list" class="grid" role="list"></div>
+    <div class="footer" id="foot">Works offline. Add to Home Screen.</div>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

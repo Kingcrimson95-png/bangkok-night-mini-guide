@@ -1,0 +1,292 @@
+[
+  {
+    "name": "Late‑night Porridge (Local Fav)",
+    "category": "food",
+    "lat": 13.7425,
+    "lng": 100.523,
+    "desc": "Classic Thai rice porridge with pork, open super late.",
+    "tip": "Best after midnight. Cash preferred.",
+    "map": "https://maps.google.com/?q=13.7425,100.5230",
+    "tags": [
+      "porridge",
+      "jok",
+      "soup"
+    ],
+    "hours": {
+      "sun": [
+        [
+          "18:00",
+          "03:00"
+        ]
+      ],
+      "mon": [
+        [
+          "18:00",
+          "03:00"
+        ]
+      ],
+      "tue": [
+        [
+          "18:00",
+          "03:00"
+        ]
+      ],
+      "wed": [
+        [
+          "18:00",
+          "03:00"
+        ]
+      ],
+      "thu": [
+        [
+          "18:00",
+          "03:00"
+        ]
+      ],
+      "fri": [
+        [
+          "18:00",
+          "04:00"
+        ]
+      ],
+      "sat": [
+        [
+          "18:00",
+          "04:00"
+        ]
+      ]
+    }
+  },
+  {
+    "name": "Rooftop View (Budget)",
+    "category": "bar",
+    "lat": 13.729,
+    "lng": 100.531,
+    "desc": "Chill rooftop with skyline view, not a tourist trap.",
+    "tip": "Arrive before 9pm for easy seating.",
+    "map": "https://maps.google.com/?q=13.7290,100.5310",
+    "tags": [
+      "rooftop",
+      "bar",
+      "view"
+    ],
+    "hours": {
+      "sun": [
+        [
+          "17:00",
+          "01:00"
+        ]
+      ],
+      "mon": [
+        [
+          "17:00",
+          "01:00"
+        ]
+      ],
+      "tue": [
+        [
+          "17:00",
+          "01:00"
+        ]
+      ],
+      "wed": [
+        [
+          "17:00",
+          "01:00"
+        ]
+      ],
+      "thu": [
+        [
+          "17:00",
+          "01:00"
+        ]
+      ],
+      "fri": [
+        [
+          "17:00",
+          "02:00"
+        ]
+      ],
+      "sat": [
+        [
+          "17:00",
+          "02:00"
+        ]
+      ]
+    }
+  },
+  {
+    "name": "Hidden Street Art Alley",
+    "category": "photo",
+    "lat": 13.748,
+    "lng": 100.497,
+    "desc": "Colorful murals in a quiet alley — great night photos.",
+    "tip": "Bring low‑light camera mode.",
+    "map": "https://maps.google.com/?q=13.7480,100.4970",
+    "tags": [
+      "street art",
+      "photo",
+      "mural"
+    ],
+    "hours": {
+      "sun": [
+        [
+          "00:00",
+          "23:59"
+        ]
+      ],
+      "mon": [
+        [
+          "00:00",
+          "23:59"
+        ]
+      ],
+      "tue": [
+        [
+          "00:00",
+          "23:59"
+        ]
+      ],
+      "wed": [
+        [
+          "00:00",
+          "23:59"
+        ]
+      ],
+      "thu": [
+        [
+          "00:00",
+          "23:59"
+        ]
+      ],
+      "fri": [
+        [
+          "00:00",
+          "23:59"
+        ]
+      ],
+      "sat": [
+        [
+          "00:00",
+          "23:59"
+        ]
+      ]
+    }
+  },
+  {
+    "name": "Late Coffee & Dessert",
+    "category": "cafe",
+    "lat": 13.7581,
+    "lng": 100.5018,
+    "desc": "Cozy spot with AC, open late for coffee addicts.",
+    "tip": "Try Thai tea cheesecake.",
+    "map": "https://maps.google.com/?q=13.7581,100.5018",
+    "tags": [
+      "cafe",
+      "dessert",
+      "coffee"
+    ],
+    "hours": {
+      "sun": [
+        [
+          "12:00",
+          "00:00"
+        ]
+      ],
+      "mon": [
+        [
+          "12:00",
+          "00:00"
+        ]
+      ],
+      "tue": [
+        [
+          "12:00",
+          "00:00"
+        ]
+      ],
+      "wed": [
+        [
+          "12:00",
+          "00:00"
+        ]
+      ],
+      "thu": [
+        [
+          "12:00",
+          "00:00"
+        ]
+      ],
+      "fri": [
+        [
+          "12:00",
+          "01:00"
+        ]
+      ],
+      "sat": [
+        [
+          "12:00",
+          "01:00"
+        ]
+      ]
+    }
+  },
+  {
+    "name": "Night Market (Local vibe)",
+    "category": "market",
+    "lat": 13.745,
+    "lng": 100.54,
+    "desc": "Cheap clothes and snacks, mostly locals.",
+    "tip": "Bargain politely, smile works wonders.",
+    "map": "https://maps.google.com/?q=13.745,100.54",
+    "tags": [
+      "market",
+      "street food",
+      "clothes"
+    ],
+    "hours": {
+      "sun": [
+        [
+          "17:00",
+          "23:00"
+        ]
+      ],
+      "mon": [
+        [
+          "17:00",
+          "23:00"
+        ]
+      ],
+      "tue": [
+        [
+          "17:00",
+          "23:00"
+        ]
+      ],
+      "wed": [
+        [
+          "17:00",
+          "23:00"
+        ]
+      ],
+      "thu": [
+        [
+          "17:00",
+          "23:00"
+        ]
+      ],
+      "fri": [
+        [
+          "17:00",
+          "00:00"
+        ]
+      ],
+      "sat": [
+        [
+          "17:00",
+          "00:00"
+        ]
+      ]
+    }
+  }
+]
